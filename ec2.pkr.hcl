@@ -24,7 +24,7 @@ data "amazon-ami" "ami" {
 ########################################## SOURCE BLOCK
 source "amazon-ebs" "linux" {
   source_ami     = data.amazon-ami.ami.id
-  ami_name       = var.ami_name
+  ami_name       = "${var.ami_name}-${local.timestamp}"
   instance_type  = var.instance_type
   region         = var.region
   vpc_id         = var.vpc_id
@@ -37,12 +37,15 @@ source "amazon-ebs" "linux" {
   ssh_interface        = var.ssh_interface
 
   run_tags = {
+    Name    = "${var.ami_name}-${local.timestamp}"
     Creator = "Packer"
   }
   run_volume_tags = {
+    Name    = "${var.ami_name}-${local.timestamp}"
     Creator = "Packer"
   }
   snapshot_tags = {
+    Name    = "${var.ami_name}-${local.timestamp}"
     Creator = "Packer"
   }
   tags = {
@@ -54,7 +57,7 @@ source "amazon-ebs" "linux" {
 
 ########################################## BUILD BLOCK
 build {
-  name = var.ami_name
+  name = "${var.ami_name}-${local.timestamp}"
   sources = [
     "source.amazon-ebs.linux"
   ]
