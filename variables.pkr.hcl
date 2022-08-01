@@ -25,7 +25,7 @@ variable "subnet_id" {
 
 variable "ami_name" {
   type    = string
-  default = "learn-packer-linux-aws"
+  default = "packer-workshop-linux-aws"
 }
 
 variable "instance_type" {
